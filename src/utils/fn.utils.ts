@@ -61,7 +61,7 @@ export function once(fn: Once): Once {
   return (...args: any[]) => {
     if (fn) {
       result = fn.apply(null, args);
-      fn = null;
+      fn = undefined;
     }
     return result;
   };

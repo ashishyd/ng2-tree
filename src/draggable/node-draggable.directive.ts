@@ -61,13 +61,17 @@ export class NodeDraggableDirective implements OnDestroy, OnInit {
 
     this.nodeDraggableService.captureNode(new CapturedNode(this.nodeDraggable, this.tree));
 
-    e.dataTransfer.setData('text', NodeDraggableDirective.DATA_TRANSFER_STUB_DATA);
-    e.dataTransfer.effectAllowed = 'move';
+    if(e.dataTransfer){
+      e.dataTransfer.setData('text', NodeDraggableDirective.DATA_TRANSFER_STUB_DATA);
+      e.dataTransfer.effectAllowed = 'move';
+    }
   }
 
   private handleDragOver(e: DragEvent): any {
     e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
+    if(e.dataTransfer){
+      e.dataTransfer.dropEffect = 'move';
+    }
   }
 
   private handleDragEnter(e: DragEvent): any {

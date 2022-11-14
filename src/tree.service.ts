@@ -129,7 +129,7 @@ export class TreeService {
       return this.controllers.get(id);
     }
 
-    return null;
+    return undefined;
   }
 
   public hasController(id: string | number): boolean {
@@ -147,7 +147,7 @@ export class TreeService {
       tree.loadingChildrenRequested();
     }
 
-    return shouldLoadNextLevel;
+    return shouldLoadNextLevel ?? false;
   }
 
   public fireNodeIndetermined(tree: Tree): void {

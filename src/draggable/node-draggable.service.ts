@@ -7,7 +7,7 @@ import { NodeDraggableEvent } from './draggable.events';
 export class NodeDraggableService {
   public draggableNodeEvents$: Subject<NodeDraggableEvent> = new Subject<NodeDraggableEvent>();
 
-  private capturedNode: CapturedNode;
+  private capturedNode: CapturedNode | undefined;
 
   public fireNodeDragged(captured: CapturedNode, target: ElementRef): void {
     if (!captured.tree || captured.tree.isStatic()) {
@@ -26,6 +26,6 @@ export class NodeDraggableService {
   }
 
   public releaseCapturedNode(): void {
-    this.capturedNode = null;
+    this.capturedNode = undefined;
   }
 }

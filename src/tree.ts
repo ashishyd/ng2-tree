@@ -12,6 +12,7 @@ import {
 import { NodeMenuItem } from './menu/node-menu.component';
 
 import * as uuidv4 from 'uuid/v4';
+import { ChildrenLoadingFunction } from './tree.types';
 
 enum ChildrenLoadingState {
   NotStarted,
@@ -84,7 +85,7 @@ export class Tree {
    * @param {Tree} [parent] - An optional parent if you want to build a tree from the model that should be a child of an existing Tree instance.
    * @param {boolean} [isBranch] - An option that makes a branch from created tree. Branch can have children.
    */
-  public constructor(node: TreeModel, parent: Tree = null, isBranch: boolean = false) {
+  public constructor(node: TreeModel, parent: Tree = undefined, isBranch: boolean = false) {
     this.buildTreeFromModel(node, parent, isBranch || Array.isArray(node.children));
   }
 
@@ -97,7 +98,7 @@ export class Tree {
     ) as TreeModel;
 
     if (isFunction(this.node.loadChildren)) {
-      this._loadChildren = this.node.loadChildren;
+      this._loadChildren = this.node.loadChildren ?? <ChildrenLoadingFunction>{};
     } else {
       get(model, 'children', []).forEach((child: TreeModel, index: number) => {
         this._addChild(new Tree(child, this), index);
@@ -105,7 +106,7 @@ export class Tree {
     }
 
     if (!Array.isArray(this._children)) {
-      this._children = this.node.loadChildren || isBranch ? [] : null;
+      this._children = this.node.loadChildren || isBranch ? [] : [];
     }
   }
 
@@ -210,7 +211,7 @@ export class Tree {
     tree.id = tree.id || uuidv4();
 
     if (this.childrenShouldBeLoaded() && !(this.childrenAreBeingLoaded() || this.childrenWereLoaded())) {
-      return null;
+      return undefined;
     }
     if (this.isLeaf()) {
       return this.addSibling(tree);
@@ -287,7 +288,7 @@ export class Tree {
     if (Array.isArray(get(this.parent, 'children'))) {
       return this.parent.addChild(sibling, position);
     }
-    return null;
+    return undefined;
   }
 
   /**
@@ -518,7 +519,7 @@ export class Tree {
     if (!this.node._foldingType) {
       this._setFoldingType();
     }
-    return this.node._foldingType;
+    return this.node._foldingType ?? <FoldingType>{};
   }
 
   /**

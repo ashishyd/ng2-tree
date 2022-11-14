@@ -48,7 +48,6 @@
     "version": "npm run changelog && git add CHANGELOG.md",
     "postversion": "git push origin master && git push --tags && npm run github-release && node publish.js",
     "webdriver-update": "node ./node_modules/protractor/bin/webdriver-manager update",
-    "precommit": "pretty-quick --staged",
     "prettier": "prettier --write '{.,src,test}/**/*.ts'"
   },
   "husky": {
