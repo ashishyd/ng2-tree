@@ -2,7 +2,6 @@ import { defaultsDeep, get, has, includes, isEmpty, isFunction, isNil, omit, onc
 
 import { Observable, Observer, of } from 'rxjs';
 import {
-  ChildrenLoadingFunction,
   FoldingType,
   RenamableNode,
   TreeModel,
@@ -85,7 +84,7 @@ export class Tree {
    * @param {Tree} [parent] - An optional parent if you want to build a tree from the model that should be a child of an existing Tree instance.
    * @param {boolean} [isBranch] - An option that makes a branch from created tree. Branch can have children.
    */
-  public constructor(node: TreeModel, parent: Tree = undefined, isBranch: boolean = false) {
+  public constructor(node: TreeModel, parent: Tree = <Tree>{}, isBranch: boolean = false) {
     this.buildTreeFromModel(node, parent, isBranch || Array.isArray(node.children));
   }
 
@@ -211,7 +210,7 @@ export class Tree {
     tree.id = tree.id || uuidv4();
 
     if (this.childrenShouldBeLoaded() && !(this.childrenAreBeingLoaded() || this.childrenWereLoaded())) {
-      return undefined;
+      return <Tree>{};
     }
     if (this.isLeaf()) {
       return this.addSibling(tree);
@@ -288,7 +287,7 @@ export class Tree {
     if (Array.isArray(get(this.parent, 'children'))) {
       return this.parent.addChild(sibling, position);
     }
-    return undefined;
+    return <Tree>{};
   }
 
   /**

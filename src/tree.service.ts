@@ -126,10 +126,10 @@ export class TreeService {
 
   public getController(id: string | number): TreeController {
     if (this.controllers.has(id)) {
-      return this.controllers.get(id);
+      return this.controllers.get(id) ?? <TreeController>{};
     }
 
-    return undefined;
+    return <TreeController>{};
   }
 
   public hasController(id: string | number): boolean {

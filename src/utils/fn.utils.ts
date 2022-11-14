@@ -56,12 +56,12 @@ export function size(value: any[]): number {
 }
 
 export function once(fn: Once): Once {
-  let result;
+  let result: any;
 
   return (...args: any[]) => {
     if (fn) {
       result = fn.apply(null, args);
-      fn = undefined;
+      fn = () => {};
     }
     return result;
   };

@@ -163,7 +163,7 @@ export class TreeInternalComponent implements OnInit, OnChanges, OnDestroy, Afte
   }
 
   public ngOnDestroy(): void {
-    if (get(this.tree, 'node.id', '')) {
+    if (get(this.tree, 'node.id', '') && this.tree.node.id) {
       this.treeService.deleteController(this.tree.node.id);
     }
 
@@ -251,7 +251,9 @@ export class TreeInternalComponent implements OnInit, OnChanges, OnDestroy, Afte
         break;
       case NodeMenuItemAction.Custom:
         this.onCustomSelected();
-        this.treeService.fireMenuItemSelected(this.tree, e.nodeMenuItemSelected);
+        if(e.nodeMenuItemSelected){
+          this.treeService.fireMenuItemSelected(this.tree, e.nodeMenuItemSelected);
+        }
         break;
       default:
         throw new Error(`Chosen menu item doesn't exist`);
